@@ -10,7 +10,8 @@ WITH TotalSalesYear AS (
 )
 SELECT
     SoldYear,
-    FORMAT("$%.2f", sum(salesAmount)) AS 'AnnualSales'
+    FORMAT("$%.2f", sum(salesAmount)) AS 'AnnualSales',
+    count(*) AS 'NumbSales'
 FROM TotalSalesYear
 GROUP BY SoldYear
 ORDER BY SoldYear;
