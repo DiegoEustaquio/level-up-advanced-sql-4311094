@@ -13,7 +13,6 @@ WITH SalesYear AS (
   FROM sales sls
   LEFT JOIN employee emp
     ON emp.employeeId = sls.employeeId
-WHERE SoldYear = 2021
 )
 SELECT
     empID,
