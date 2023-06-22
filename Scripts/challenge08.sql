@@ -142,10 +142,7 @@ INNER JOIN employee emp
 WHERE sls.soldDate >= '2021-01-01'
   AND sls.soldDate < '2022-01-01'
 GROUP BY emp.firstName, emp.lastName
-ORDER BY emp.firstName, emp.lastName
-
-  
-
+ORDER BY emp.lastName, emp.firstName
 
 
 -- Check the data type inside a table
