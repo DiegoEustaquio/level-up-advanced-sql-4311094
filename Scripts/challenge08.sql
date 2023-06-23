@@ -3,7 +3,7 @@
 -- this case is to return a report that shows the First Name and Last Name, and 
 -- a new column for each month, showing the amount of sales for the respective
 -- employee.
--- PRAGMA table_info(), 
+-- PRAGMA table_info(), CTE, LEFT JOIN, WHERE, GROUP BY, ORDER BY
 
 
 -- Try00 challenge08(v1) - now deleted (broken)
