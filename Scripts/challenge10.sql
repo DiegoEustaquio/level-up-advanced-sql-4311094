@@ -3,8 +3,7 @@
 -- Window Function:
 -- AGGREGATION FUNCTIONS: AVG(), MIN(), MAX(), SUM(), COUNT()
 -- RANKING FUNCTIONS: ROW_NUMBER(), RANK(), DENSE_RANK(), PERCENT_RANK(), NTILE()
--- VALUE FUNCTIONs:
-
+-- VALUE FUNCTIONs: LAG(), LEAD(), FIRST_VALUE(), NTH_VALUE()
 
 
 -- TEST01: Testing window function: AGGREGATION FUNCTIONS
@@ -26,8 +25,6 @@ FROM sales sls
 LEFT JOIN employee emp
   ON sls.employeeId = emp.employeeId
 ORDER BY emp.employeeId
-
-
 
 
 -- TEST02: Testing window function: RANKING FUNCTIONS
@@ -59,5 +56,71 @@ LEFT JOIN employee emp
   ON sls.employeeId = emp.employeeId
 
 
--- TEST02: Testing window function: VALUE FUNCTIONS
--- LAG(), 
+-- TEST03: Testing window function: VALUE FUNCTIONS
+-- This window function is used to compare the rows of a specific
+-- column with the rows that come before (LAG) and after (LEAD).
+-- LAG()
+SELECT emp.employeeId AS EmpID,
+  sls.salesId AS SlID,
+  emp.managerId AS MngrID,
+  sls.salesAmount AS SlAmt,
+  LAG(sls.salesAmount) OVER (PARTITION BY emp.employeeId
+  ORDER BY sls.salesAmount) AS 'LAG'
+FROM sales sls
+LEFT JOIN employee emp
+  ON sls.employeeId = emp.employeeId
+
+-- LEAD()
+SELECT emp.employeeId AS EmpID,
+  sls.salesId AS SlID,
+  emp.managerId AS MngrID,
+  sls.salesAmount AS SlAmt,
+  LEAD(sls.salesAmount) OVER (PARTITION BY emp.employeeId
+  ORDER BY sls.salesAmount) AS 'LEAD'
+FROM sales sls
+LEFT JOIN employee emp
+  ON sls.employeeId = emp.employeeId
+
+-- FIRST_VALUE()
+SELECT emp.employeeId AS EmpID,
+  sls.salesId AS SlID,
+  emp.managerId AS MngrID,
+  sls.salesAmount AS SlAmt,
+  FIRST_VALUE(sls.salesAmount) OVER (PARTITION BY emp.employeeId
+  ORDER BY sls.salesAmount) AS 'FirstValue'
+FROM sales sls
+LEFT JOIN employee emp
+  ON sls.employeeId = emp.employeeId
+
+-- NTH_VALUE() Compares a specific column with the amount of the 'NthValue'
+-- of the column itself.
+  SELECT emp.employeeId AS EmpID,
+  sls.salesId AS SlID,
+  emp.managerId AS MngrID,
+  sls.salesAmount AS SlAmt,
+  NTH_VALUE(sls.salesAmount, 5) OVER (PARTITION BY emp.employeeId
+  ORDER BY sls.salesAmount) AS 'NthValue'
+FROM sales sls
+LEFT JOIN employee emp
+  ON sls.employeeId = emp.employeeId
+
+
+
+
+-- Back to the challenge...
+-- get a list of sales people and rank the car models they've sold the most.
+SELECT emp.employeeId AS 'empId'
+  ,emp.firstName AS 'firstName'
+  ,emp.lastName AS 'lastName'
+  ,mdl.model AS 'carModel'
+  ,COUNT(mdl.model) AS 'countMdlSold'
+  ,RANK() OVER (PARTITION BY emp.employeeId
+    ORDER BY COUNT(mdl.model) DESC) AS 'ModelRank'
+FROM employee emp
+  INNER JOIN sales sls ON emp.employeeId = sls.employeeId
+  INNER JOIN inventory inv ON sls.inventoryId = inv.inventoryId
+  INNER JOIN model mdl ON inv.modelId = mdl.modelId
+GROUP BY emp.firstName, emp.lastName , mdl.model
+ORDER BY emp.firstName, emp.lastName
+
+

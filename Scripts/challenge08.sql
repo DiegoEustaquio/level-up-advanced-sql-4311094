@@ -31,7 +31,7 @@ SELECT
 FROM SalesYear
 WHERE SoldYear = '2021' AND SoldMonth = '01'
 GROUP BY FirstName
-ORDER BY FirstName ,SoldMonth
+ORDER BY FirstName, SoldMonth
 
 
 
