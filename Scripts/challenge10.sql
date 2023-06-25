@@ -3,7 +3,7 @@
 -- Window Function:
 -- AGGREGATION FUNCTIONS: AVG(), MIN(), MAX(), SUM(), COUNT()
 -- RANKING FUNCTIONS: ROW_NUMBER(), RANK(), DENSE_RANK(), PERCENT_RANK(), NTILE()
--- VALUE FUNCTIONs: LAG(), LEAD(), FIRST_VALUE(), NTH_VALUE()
+-- VALUE FUNCTIONS: LAG(), LEAD(), FIRST_VALUE(), NTH_VALUE()
 
 
 -- TEST01: Testing window function: AGGREGATION FUNCTIONS
@@ -13,14 +13,15 @@ SELECT emp.employeeId AS EmpID,
   emp.managerId AS MngrID,
   FORMAT("$%.2f", sls.salesAmount) AS salesAmount,
   FORMAT("$%.2f", AVG(sls.salesAmount)
-  OVER (PARTITION BY emp.employeeId)) AS 'AvgSlAmt',
+    OVER (PARTITION BY emp.employeeId)) AS 'AvgSlAmt',
   FORMAT("$%.2f", MAX(sls.salesAmount)
-  OVER (PARTITION BY emp.employeeId)) AS 'MaxSlAmt',
+    OVER (PARTITION BY emp.employeeId)) AS 'MaxSlAmt',
   FORMAT("$%.2f", MIN(sls.salesAmount)
-  OVER (PARTITION BY emp.employeeId)) AS 'MinSlAmt',
+    OVER (PARTITION BY emp.employeeId)) AS 'MinSlAmt',
   FORMAT("$%.2f", SUM(sls.salesAmount)
-  OVER (PARTITION BY emp.employeeId)) AS 'TtlSlAmt',
-  COUNT(sls.salesAmount) OVER (PARTITION BY emp.employeeId) AS 'CountSls'
+    OVER (PARTITION BY emp.employeeId)) AS 'TtlSlAmt',
+  COUNT(sls.salesAmount)
+    OVER (PARTITION BY emp.employeeId) AS 'CountSls'
 FROM sales sls
 LEFT JOIN employee emp
   ON sls.employeeId = emp.employeeId
