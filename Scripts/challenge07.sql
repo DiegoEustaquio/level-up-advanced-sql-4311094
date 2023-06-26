@@ -1,6 +1,6 @@
 -- challenge **
 -- Report showing total sales per year
--- Common table expression (CTE), FORMAT(), strftime(), FORMAT(), GROUP BY, ORDER BY
+-- Common table expression (CTE), FORMAT(), strftime(), GROUP BY, ORDER BY
 
 WITH TotalSalesYear AS (
   SELECT

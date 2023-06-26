@@ -1,6 +1,6 @@
 -- challenge *
 -- Find sales people who have zero sales
--- LEFT JOIN, WHERE, AND
+-- LEFT JOIN, WHERE AND
 
 SELECT
       emp.firstName,
